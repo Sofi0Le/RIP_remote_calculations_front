@@ -5,9 +5,6 @@ import CalculationsPage from './components/Calculations/Calculations';
 import CalculationsDetailedPage from './components/CalculationsDetailed/CalculationsDetailed';
 import RegistrationPage from './components/Registration'
 import LoginPage from './components/LoginPage';
-import ModeratorCalculationsPage from './Moderator_calculations';
-import ModeratorCalculationsChangePage from './Moderator_calculations_change';
-import ModeratorCalculationsNewPage from './Moderator_calculations_new'
 import ApplicationsPage from './ApplicationsPage'
 import ApplicationDetailPage from './ApplicationDetailedPage'
 import { Provider } from 'react-redux'; // Импортируйте Provider
@@ -15,14 +12,6 @@ import { store } from './redux/store'; // Импортируйте ваш Redux 
 
 
 const router = createBrowserRouter([
-  {
-    path: '/moderator/operations/new/',
-    element: <ModeratorCalculationsNewPage />,
-  },
-  {
-    path: '/moderator/operations/',
-    element: <ModeratorCalculationsPage />,
-  },
   {
     path: '/login/',
     element: <LoginPage />,
@@ -38,10 +27,6 @@ const router = createBrowserRouter([
   {
     path: '/operations/:id/',
     element: <CalculationsDetailedPage />,
-  },
-  {
-    path: '/moderator/operations/change/:id/',
-    element: <ModeratorCalculationsChangePage />,
   },
   {
     path: '/applications/',

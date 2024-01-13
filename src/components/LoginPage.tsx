@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuthToken, setUsername, setUserrole } from '../redux/authSlice';
+import { setAuthToken, setUsername} from '../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import '../Calculation.css';
 import axios from 'axios';
@@ -38,18 +38,13 @@ const LoginPage: React.FC = () => {
 
       const sessionKey = response.data.session_key;
       const username = response.data.username;
-      const role = response.data.role;
       dispatch(setAuthToken(sessionKey));
       dispatch(setUsername(username));
-      dispatch(setUserrole(role));
 
       // Check for status 200 and redirect
       if (response.status === 200) {
-        if (role === "User") {
             navigate('/operations/');
-        } else {
-          navigate('/moderator/operations/');
-        }
+
       } else {
         // Handle other status codes
         console.error('Login unsuccessful. Status:', response.status);

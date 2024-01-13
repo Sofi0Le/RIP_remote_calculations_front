@@ -35,7 +35,7 @@ const CalculationsDetailedPage: React.FC = () => {
       try {
         const response = await fetch(`http://localhost:8000/api/operations/${id}/`); 
         const data = await response.json();
-        setCalculationtData(data); // Update state with fetched data
+        setCalculationtData(data); 
       } catch (error) {
         console.error('Error fetching calculation data:', error);
       }
@@ -48,7 +48,6 @@ const CalculationsDetailedPage: React.FC = () => {
   }, [id]); // при изменении 'id'
 
   useEffect(() => {
-    // Fetch user data when the component mounts
     const fetchUserData = async () => {
       try {
         const user = localStorage.getItem('username');
@@ -58,7 +57,6 @@ const CalculationsDetailedPage: React.FC = () => {
       }
     };
 
-    // Fetch user data only if the user is logged in
     if (isUserLoggedIn) {
       fetchUserData();
     }
@@ -74,12 +72,12 @@ const CalculationsDetailedPage: React.FC = () => {
     <div className="container">
       {
         <div className="row">
-          <Breadcrumbs items={breadcrumbsItems} /> {/* Include Breadcrumbs component */}
+          <Breadcrumbs items={breadcrumbsItems} /> 
           <div className="col">
             <div className="card">
 
             <img
-                  src={(calculationData.full_url != '' && calculationData.full_url != 'http://localhost:9000/pictures/None') ? calculationData.full_url : logoImage} // Use bouquet.full_url or default logoImage
+                  src={(calculationData.full_url != '' && calculationData.full_url != 'http://localhost:9000/pictures/None') ? calculationData.full_url : logoImage} 
                   alt={calculationData.full_url}
                   className="card-img-top"
                 />

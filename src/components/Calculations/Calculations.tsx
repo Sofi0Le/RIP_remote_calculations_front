@@ -59,7 +59,6 @@ const CalculationsPage: FC = () => {
   };
 
   const fetchCalculations = (searchText: string) => {
-    // Fetch bouquet data using the relative path with query parameter
     axios.get(`http://localhost:8000/api/operations/`, {
       params: { title: searchText },
       withCredentials: true, 
@@ -89,7 +88,6 @@ const CalculationsPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch user data when the component mounts
     const fetchUserData = async () => {
       try {
         const user = localStorage.getItem('username');
@@ -155,7 +153,7 @@ const CalculationsPage: FC = () => {
                     calculation.full_url !== '' && calculation.full_url !== 'http://localhost:9000/images/images/None'
                       ? calculation.full_url
                       : logoImage
-                  } // Use bouquet.full_url or default logoImage
+                  }
                   alt={calculation.calculation_name}
                   className="card-img-top"
                 />

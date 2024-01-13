@@ -1,4 +1,3 @@
-// ModeratorBouquetsPage.tsx
 import React, { FC, useState, useEffect } from 'react';
 import './ApplicationsPage.css'
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Header from './Header'; 
 import { RootState } from './redux/store';
-import { setUserrole, setUsername } from './redux/authSlice';
+import { setUsername } from './redux/authSlice';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 
 
@@ -67,9 +66,7 @@ const ApplicationsPage: FC = () => {
   const startParam = queryParams.get('start_date') || '';
   const endParam = queryParams.get('end_date') || '';
   const isUserLoggedIn = document.cookie.includes('session_key');
-  const role = useSelector((state: RootState) => state.auth.userrole);
   const username = useSelector((state: RootState) => state.auth.username);
-  const operationsLink = role === 'Moderator' ? '/moderator/operations/' : '/operations';
 
   const [statusValue, setStatusValue] = useState(statusParam);
   const [startValue, setStartValue] = useState(startParam);
@@ -81,7 +78,7 @@ const ApplicationsPage: FC = () => {
   };
 
   const breadcrumbsItems = [
-    { label: 'Все операции', link: role === 'Moderator' ? '/moderator/operations/' : '/operations' },
+    { label: 'Все операции', link: '/operations' },
     { label: 'Заявки', link: '' } 
   ];
 
@@ -114,8 +111,6 @@ const ApplicationsPage: FC = () => {
       try {
         const response = await fetch('/api/user-data');
         const userData = await response.json();
-        console.log(userData.role)
-        dispatch(setUserrole(userData.role));
       } catch (error) {
       }
     };
@@ -171,8 +166,6 @@ const ApplicationsPage: FC = () => {
       try {
         const user_name = localStorage.getItem('username');
         dispatch(setUsername(user_name || ''));
-        const user_role = localStorage.getItem('userrole');
-        dispatch(setUserrole(user_role || ''));
       } catch (error) {
       }
     };
@@ -197,7 +190,7 @@ const ApplicationsPage: FC = () => {
     <div>
       <Header
           isUserLoggedIn={isUserLoggedIn}
-          operations_link={operationsLink}
+          operations_link={'/operations/'}
           username={username}
           handleLoginClick={handleLoginClick}
           handleLogoutClick={handleLogoutClick}
@@ -206,41 +199,6 @@ const ApplicationsPage: FC = () => {
       <div className="header-container"  style={{ marginTop: '45px', marginLeft: '40px' }}>
         <Breadcrumbs items={breadcrumbsItems} />
       </div> 
-      {role === 'Moderator' && (
-        <div className="container search-bar" style={{ marginBottom: '20px' }}>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Статус"
-            value={statusValue}
-            onChange={(event) => setStatusValue(event.target.value)}
-          />
-          <input
-            type="date"
-            id="search-input"
-            placeholder="Начальная дата"
-            value={startValue}
-            onChange={(event) => setStartValue(event.target.value)}
-          />
-          <input
-            type="date"
-            id="search-input"
-            placeholder="Конечная дата"
-            value={endValue}
-            onChange={(event) => setEndValue(event.target.value)}
-          />
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Поиск по клиенту"
-            value={searchValue}
-            onChange={(event) => setSearchValue(event.target.value)}
-          />
-          <button type="button" id="search-button" onClick={handleSearchClick}>
-            Искать
-          </button>
-        </div>
-      )}
         <div className="album">
         <div className="container">
           <div className="row">
@@ -254,13 +212,6 @@ const ApplicationsPage: FC = () => {
                   <th scope="col">Второй параметр</th>
                   <th scope="col">Статус</th>
                   <th scope="col">Кол-во результатов</th>
-
-                  {role === 'Moderator' && (
-                    <>
-                      <th scope="col">Модератор</th>
-                      <th scope="col">Клиент</th>
-                    </>
-                  )}
                   <th scope="col">Действия</th>
                 </tr>
               </thead>
@@ -281,45 +232,7 @@ const ApplicationsPage: FC = () => {
                       <td style={{ padding: '8px' }}>{translateStatus(application.application_status)}</td>
                       <td style={{ padding: '8px' }}>{application.count_empty_results}</td>
 
-                      {role === 'Moderator' && (
-                        <>
-                          <td style={{ padding: '8px' }}>{application.moderator_login ?? 'Неизвестно'}</td>
-                          <td style={{ padding: '8px' }}>{application.user_login ?? 'Неизвестно'}</td>
-                          <td style={{ padding: '8px' }}>
-                            {application.application_status === 'In service' && (
-                              <div>
-                              <div className="text-and-button">
-                              <span
-                                  className="basket-text" 
-                                  onClick={() => handleAccept(application.application_id)}
-                                >
-                              <p>Принять</p>
-                              </span>
-                              </div>
-                              <div className="text-and-button">
-                              <span
-                                  className="basket-text" 
-                                  onClick={() => handleReject(application.application_id)}
-                                >
-                              <p>Отклонить</p>
-                              </span>
-                              </div>
-                              </div>
-                            )}
-                            <div className="text-and-button">
-                      <span
-                        className="basket-text"
-                        onClick={() => {
-                        navigateTo(`/applications/${application.application_id}/`);
-              }}
-            >
-            <p>Подробнее</p>
-            </span>
-          </div>
-                          </td>
-                        </>
-                      )}
-                      {role === 'User' && (
+
                         <>
                         <td style={{ padding: '8px' }}>
                         <div className="text-and-button">
@@ -334,7 +247,6 @@ const ApplicationsPage: FC = () => {
           </div>
                           </td>
                         </>
-                      )}
                     </tr>
                     {index !== applications.length - 1 && <tr className="table-divider"></tr>}
                   </React.Fragment>

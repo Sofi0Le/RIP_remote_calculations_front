@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/store';
-import { setUserrole, setUsername } from './redux/authSlice';
+import { setUsername } from './redux/authSlice';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import './CalculationDetail.css';
 import logoImage from './logo.png';
@@ -63,9 +63,7 @@ const ApplicationDetailPage: React.FC = () => {
   const [orderData, setOrderData] = useState<ApplicationCalc | null>(null);
   const navigateTo = useNavigate();
   const isUserLoggedIn = document.cookie.includes('session_key');
-  const role = useSelector((state: RootState) => state.auth.userrole);
   const username = useSelector((state: RootState) => state.auth.username);
-  const operationsLink = role === 'Moderator' ? '/moderator/operations/' : '/operations';
 
   const [editedClientInfo, setEditedClientInfo] = useState({
     input_first_param: orderData?.application.input_first_param || '',
@@ -73,7 +71,7 @@ const ApplicationDetailPage: React.FC = () => {
   });
 
   const breadcrumbsItems = [
-    { label: 'Все операции', link: operationsLink },
+    { label: 'Все операции', link: '/operations/' },
     { label: 'Подробнее', link: '' }
   ];
 
@@ -104,8 +102,6 @@ const ApplicationDetailPage: React.FC = () => {
       try {
         const user_name = localStorage.getItem('username');
         dispatch(setUsername(user_name || ''));
-        const user_role = localStorage.getItem('userrole');
-        dispatch(setUserrole(user_role || ''));
         } catch (error) {
         }
       };
@@ -184,7 +180,7 @@ const ApplicationDetailPage: React.FC = () => {
     <div>
       <Header
           isUserLoggedIn={isUserLoggedIn}
-          operations_link={operationsLink}
+          operations_link={'/operations/'}
           username={username}
           handleLogoutClick={handleLogoutClick}
         />

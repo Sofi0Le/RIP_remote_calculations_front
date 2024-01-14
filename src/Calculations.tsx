@@ -114,12 +114,11 @@ const CalculationsPage: FC = () => {
                       className="btn btn-primary"
                       onClick={(e) => {
                         e.preventDefault(); // Prevent page refresh
-                        navigateTo(`/operations/${calculation.calculation_id}/`);
+                        navigateTo(`/calculations/${calculation.calculation_id}/`);
                       }}
                     >
                       Подробнее
                     </a>
-
                 </div>
               </div>
             </div>

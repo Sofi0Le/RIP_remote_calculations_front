@@ -110,10 +110,16 @@ const CalculationsPage: FC = () => {
                 <div className="card-body">
                   <h5 className="card-title">{calculation.calculation_name}</h5>
                   <p className="card-text">{calculation.calculation_description}</p>
-                  {/* Add more text elements here if needed */}
-                  <a href={`/RIP_remote_calculations_front_pages/#/calculations/${calculation.calculation_id}/`} className="btn btn-primary">
-                    Подробнее
-                  </a>
+                  <a
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevent page refresh
+                        navigateTo(`/operations/${calculation.calculation_id}/`);
+                      }}
+                    >
+                      Подробнее
+                    </a>
+
                 </div>
               </div>
             </div>
